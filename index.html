@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nicky Martin - Digital Preservation & Information Systems</title>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@300;400;500&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --catalog-cream: #f8f6f0;
+            --catalog-line: #d4af37;
+            --catalog-text: #2c2c2c;
+            --catalog-accent: #8b4513;
+            --catalog-blue: #4a5568;
+            --shadow-light: rgba(0,0,0,0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Crimson Text', serif;
+            background: linear-gradient(135deg, #f5f3ee 0%, #ede9e0 100%);
+            color: var(--catalog-text);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Header - Main Card */
+        .main-card {
+            background: var(--catalog-cream);
+            border: 2px solid var(--catalog-line);
+            border-radius: 8px;
+            padding: 3rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 8px 25px var(--shadow-light);
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .main-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: repeating-linear-gradient(
+                to right,
+                var(--catalog-line) 0px,
+                var(--catalog-line) 20px,
+                transparent 20px,
+                transparent 40px
+            );
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--catalog-line);
+        }
+
+        .catalog-number {
+            font-family: 'Source Code Pro', monospace;
+            font-size: 0.9rem;
+            color: var(--catalog-accent);
+            font-weight: 500;
+        }
+
+        .dewey-number {
+            font-family: 'Source Code Pro', monospace;
+            font-size: 0.9rem;
+            color: var(--catalog-blue);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: var(--catalog-text);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--catalog-blue);
+            font-style: italic;
+            margin-bottom: 0.75rem;
+        }
+
+        .intro-text {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            text-align: justify;
+        }
+
+        .contact-info {
+            font-family: 'Source Code Pro', monospace;
+            font-size: 0.95rem;
+            color: var(--catalog-blue);
+            margin-top: 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            justify-content: center;
+        }
+
+        .contact-info a {
+            color: var(--catalog-accent);
+            text-decoration: none;
+        }
+
+        .contact-info a:hover {
+            text-decoration: underline;
+        }
+
+        /* Navigation */
+        .nav-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 2px solid var(--catalog-line);
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .nav-tab {
+            padding: 1rem 2rem;
+            background: none;
+            border: none;
+            font-family: 'Crimson Text', serif;
+            font-size: 1.3rem;
+            color: var(--catalog-blue);
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-tab:hover,
+        .nav-tab.active {
+            color: var(--catalog-accent);
+            border-bottom-color: var(--catalog-accent);
+        }
+
+        /* Content Sections */
+        .content-section {
+            display: none;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        /* CV Section */
+        .cv-section {
+            background: var(--catalog-cream);
+            border: 1px solid var(--catalog-line);
+            border-radius: 6px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .cv-section h3 {
+            color: var(--catalog-accent);
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid var(--catalog-line);
+            padding-bottom: 0.5rem;
+        }
+
+        .cv-item {
+            margin-bottom: 1.5rem;
+            padding-left: 1rem;
+            border-left: 2px solid var(--catalog-line);
+        }
+
+        .cv-item h4 {
+            color: var(--catalog-text);
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .cv-meta {
+            font-family: 'Source Code Pro', monospace;
+            font-size: 0.9rem;
+            color: var(--catalog-blue);
+            margin-bottom: 0.5rem;
+        }
+
+        .cv-item p, .cv-item ul {
+            margin-top: 0.5rem;
+            color: var(--catalog-text);
+        }
+
+        .cv-item ul {
+            list-style-position: inside;
+            padding-left: 0.5rem;
+        }
+
+        .cv-item li {
+            margin-bottom: 0.25rem;
+        }
+
+        /* Special styling for paragraph-only content (like About section) */
+        .cv-item-paragraph {
+            margin-bottom: 1.5rem;
+            padding-left: 0;
+            border-left: none;
+        }
+
+        .cv-item-paragraph p {
+            margin-top: 0;
+            color: var(--catalog-text);
+            line-height: 1.8;
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .skill-tag {
+            background: rgba(212, 175, 55, 0.1);
+            border: 1px solid var(--catalog-line);
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            color: var(--catalog-accent);
+        }
+
+        /* Project Cards Grid */
+        .project-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .project-card-simple {
+            background: var(--catalog-cream);
+            border: 1px solid var(--catalog-line);
+            border-left: 4px solid var(--catalog-accent);
+            border-radius: 6px;
+            padding: 1.5rem;
+            transition: box-shadow 0.3s ease;
+        }
+
+        .project-card-simple:hover {
+            box-shadow: 0 4px 12px var(--shadow-light);
+        }
+
+        .project-card-simple h4 {
+            font-size: 1.2rem;
+            color: var(--catalog-text);
+            margin-bottom: 0.5rem;
+            line-height: 1.3;
+        }
+
+        .project-card-simple .cv-meta {
+            font-family: 'Source Code Pro', monospace;
+            font-size: 0.85rem;
+            color: var(--catalog-blue);
+            margin-bottom: 1rem;
+        }
+
+        .project-card-simple ul {
+            list-style-position: outside;
+            padding-left: 1.2rem;
+            margin: 0;
+        }
+
+        .project-card-simple li {
+            margin-bottom: 0.5rem;
+            color: var(--catalog-text);
+            line-height: 1.5;
+            font-size: 0.95rem;
+        }
+
+        /* Projects Grid */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .project-card {
+            background: var(--catalog-cream);
+            border: 1px solid var(--catalog-line);
+            border-radius: 6px;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: var(--catalog-line);
+        }
+
+        .project-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 6px 20px var(--shadow-light);
+        }
+
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            font-family: 'Source Code Pro', monospace;
+            font-size: 0.85rem;
+        }
+
+        .project-id {
+            color: var(--catalog-accent);
+            font-weight: 500;
+        }
+
+        .project-classification {
+            color: var(--catalog-blue);
+        }
+
+        .project-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+            color: var(--catalog-text);
+        }
+
+        .project-description {
+            color: var(--catalog-blue);
+            margin-bottom: 1rem;
+        }
+
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .tag {
+            background: rgba(212, 175, 55, 0.1);
+            border: 1px solid var(--catalog-line);
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            color: var(--catalog-accent);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .main-card {
+                padding: 1.5rem 1rem;
+            }
+
+            h1 {
+                font-size: 1.75rem;
+            }
+
+            .subtitle {
+                font-size: 1rem;
+            }
+
+            .intro-text {
+                font-size: 1rem;
+                text-align: left;
+            }
+
+            .card-header {
+                flex-direction: column;
+                gap: 0.5rem;
+                align-items: flex-start;
+            }
+
+            .nav-tabs {
+                gap: 0.25rem;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: thin;
+            }
+
+            .nav-tab {
+                padding: 0.75rem 1rem;
+                font-size: 0.9rem;
+                white-space: nowrap;
+                flex-shrink: 0;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-info {
+                flex-direction: column;
+                gap: 0.5rem;
+                font-size: 0.85rem;
+            }
+
+            .cv-section {
+                padding: 1.5rem 1rem;
+            }
+
+            .cv-section h3 {
+                font-size: 1.1rem;
+            }
+
+            .cv-item h4 {
+                font-size: 1rem;
+            }
+
+            .cv-meta {
+                font-size: 0.85rem;
+            }
+
+            .skill-tags, .project-tags {
+                gap: 0.4rem;
+            }
+
+            .skill-tag, .tag {
+                font-size: 0.8rem;
+                padding: 0.2rem 0.6rem;
+            }
+
+            .project-cards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .project-card-simple {
+                padding: 1.25rem;
+            }
+
+            .project-card-simple h4 {
+                font-size: 1.1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.5rem;
+                letter-spacing: 0.5px;
+            }
+
+            .subtitle {
+                font-size: 0.95rem;
+            }
+
+            .main-card {
+                padding: 1.25rem 0.75rem;
+            }
+
+            .nav-tab {
+                padding: 0.6rem 0.8rem;
+                font-size: 0.85rem;
+            }
+
+            .cv-section {
+                padding: 1.25rem 0.75rem;
+            }
+
+            .project-card {
+                padding: 1.25rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="main-card">
+            <h1>Nicky Martin</h1>
+            <p class="subtitle">Digital Preservation & Information Systems</p>
+
+            <div class="contact-info">
+                <span>📧 <a href="mailto:nickmartin1010@gmail.com">nickmartin1010@gmail.com</a></span>
+                <span>📍 Los Angeles, CA</span>
+            </div>
+
+            <div class="nav-tabs">
+                <button class="nav-tab active" onclick="showSection('about')">About</button>
+                <button class="nav-tab" onclick="showSection('cv')">CV</button>
+                <button class="nav-tab" onclick="showSection('projects')">Projects</button>
+            </div>
+        </div>
+
+        <!-- About Section -->
+        <div id="about" class="content-section active">
+            <div class="cv-section">
+                <h3>Statement of Purpose</h3>
+                <div class="cv-item-paragraph">
+                    <p>MSLIS candidate at the University of Illinois focused on digital preservation, web archiving, metadata standards, data stewardship and universal access to knowledge. Experienced in digital asset management, accessibility compliance, collection management, and client-facing technical support. Committed to stewarding humanity's knowledge for present and future generations through open access and digital preservation practices.</p>
+                </div>
+            </div>
+
+            <div class="cv-section">
+                <h3>Professional Values</h3>
+                <div class="cv-item-paragraph">
+                    <p>Committed to the core values of librarianship: equitable access to information for all patrons, intellectual freedom, preservation of cultural heritage, and universal access to knowledge. Passionate about making historical records, primary sources, and digital collections accessible to researchers, scholars, and the public.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- CV Section (Combined Experience, Education, Skills) -->
+        <div id="cv" class="content-section">
+            <div class="cv-section">
+                <h3>Education</h3>
+                
+                <div class="cv-item">
+                    <h4>Master of Science in Library and Information Science</h4>
+                    <div class="cv-meta">University of Illinois, Urbana-Champaign iSchool • Aug 2024 - Apr 2027 • GPA 4.0</div>
+                    <p><strong>Coursework:</strong></p>
+                    <ul>
+                        <li>Web Archiving (Dr. Emily Maemura)</li>
+                        <li>Digital Preservation (Dr. Emily Maemura)</li>
+                        <li>Archive Administration</li>
+                        <li>Bibliographic Metadata (Dr. Bobby Bothmann)</li>
+                        <li>Information, Organization, and Access (Dr. Emily Maemura)</li>
+                        <li>Libraries, Information and Society (Dr. Emily Knox)</li>
+                        <li>Introduction to Digital Humanities (Dr. Ryan Cordell)</li>
+                        <li>Data-Driven Practices in Libraries (Dr. Sara Goek)</li>
+                    </ul>
+                    <p style="margin-top: 1rem;"><strong>Research Focus:</strong> Web preservation, visual data representation, cybersecurity in library systems, bibliometrics</p>
+                </div>
+
+                <div class="cv-item">
+                    <h4>Bachelor of Liberal Arts and Science, English Literature</h4>
+                    <div class="cv-meta">University of Illinois, Urbana-Champaign • Sep 2009 - Apr 2013 • GPA 3.49</div>
+                </div>
+            </div>
+
+            <div class="cv-section">
+                <h3>Professional Experience</h3>
+                
+                <div class="cv-item">
+                    <h4>Student Affairs Graduate Assistant</h4>
+                    <div class="cv-meta">University of Illinois iSchool • August 2025 - Present • Champaign, IL</div>
+                    <ul>
+                        <li>Coordinate programs and events to connect MSLIS students with LIS professionals</li>
+                        <li>Design promotional materials including flyers, videos, and web content</li>
+                        <li>Conduct interviews with university librarians and archivists via Zoom</li>
+                        <li>Support peers with class selection and iSchool onboarding</li>
+                        <li>Plan and host community-building events for the LIS student body</li>
+                    </ul>
+                </div>
+
+                <div class="cv-item">
+                    <h4>Accessibility Consultant</h4>
+                    <div class="cv-meta">University of Illinois, Disability Access Providers • August 2025 - Present • Urbana, IL</div>
+                    <ul>
+                        <li>Remediate documents for accessibility compliance using assistive technology tools</li>
+                        <li>Audit and edit webpages for WCAG standards</li>
+                        <li>Ensure digital content accessibility for diverse user needs</li>
+                    </ul>
+                </div>
+
+                <div class="cv-item">
+                    <h4>Digital Collections Intern</h4>
+                    <div class="cv-meta">Pacific Atrocities Education • May 2025 - August 2025 • Remote</div>
+                    <ul>
+                        <li>Accessioned declassified NARA documents using Dublin Core metadata standards</li>
+                        <li>Implemented new Omeka theme and created virtual exhibit on corporate bioweapons</li>
+                        <li>Applied item-level metadata to archival records in digital asset management platform</li>
+                        <li>Contributed to making primary sources about WWII Pacific theater accessible to scholars</li>
+                    </ul>
+                </div>
+
+                <div class="cv-item">
+                    <h4>E-Commerce Collection Manager</h4>
+                    <div class="cv-meta">The Last Bookstore • January 2024 - August 2025 • Los Angeles, CA</div>
+                    <ul>
+                        <li>Managed high-turnover collection of 8,000+ items across Amazon and eBay platforms</li>
+                        <li>Accessioned specialty media and rare books for online collections</li>
+                        <li>Conducted pricing analysis for hundreds of media items weekly</li>
+                        <li>Created databases, reports, and dashboards for order fulfillment using Excel</li>
+                        <li>Developed systematic organization methods for diverse collections</li>
+                        <li>Implemented shelving schema based on date and size to improve retrieval efficiency</li>
+                        <li>Troubleshot technical issues between inventory management systems and e-commerce platforms</li>
+                        <li>Photographed, appraised, and preserved specialty books for collectors</li>
+                    </ul>
+                </div>
+
+                <div class="cv-item">
+                    <h4>Account Executive / Solutions Engineer</h4>
+                    <div class="cv-meta">Inktavo • January 2017 - September 2023 • Remote</div>
+                    <ul>
+                        <li>Sold project management and database software to 600+ screen printing businesses</li>
+                        <li>Achieved monthly quota of $10,000 annual recurring revenue</li>
+                        <li>Conducted product demos, installations, and staff training for new implementations</li>
+                        <li>Created paid implementation and training program</li>
+                        <li>Developed knowledge base articles and video tutorials for complex workflows</li>
+                        <li>Collaborated with engineers to implement product improvements based on customer feedback</li>
+                        <li>Worked effectively across timezones with remote teams</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="cv-section">
+                <h3>Technical Skills</h3>
+                
+                <div class="cv-item">
+                    <h4>Web Archiving & Digital Preservation</h4>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Archive-It</span>
+                        <span class="skill-tag">WebRecorder</span>
+                        <span class="skill-tag">Browsertrix</span>
+                        <span class="skill-tag">WARC/WACZ</span>
+                        <span class="skill-tag">DSpace</span>
+                        <span class="skill-tag">Omeka</span>
+                        <span class="skill-tag">ArchivesSpace</span>
+                        <span class="skill-tag">ResourceSpace</span>
+                    </div>
+                </div>
+
+                <div class="cv-item">
+                    <h4>Metadata & Cataloging</h4>
+                    <div class="skill-tags">
+                        <span class="skill-tag">MARC</span>
+                        <span class="skill-tag">RDA</span>
+                        <span class="skill-tag">Dublin Core</span>
+                        <span class="skill-tag">LCSH</span>
+                        <span class="skill-tag">Getty Vocabularies</span>
+                        <span class="skill-tag">OAIS</span>
+                        <span class="skill-tag">PREMIS</span>
+                    </div>
+                </div>
+
+                <div class="cv-item">
+                    <h4>Programming & Development</h4>
+                    <div class="skill-tags">
+                        <span class="skill-tag">HTML/CSS</span>
+                        <span class="skill-tag">JavaScript</span>
+                        <span class="skill-tag">Python</span>
+                        <span class="skill-tag">R</span>
+                        <span class="skill-tag">Git</span>
+                        <span class="skill-tag">Docker</span>
+                        <span class="skill-tag">WordPress</span>
+                    </div>
+                </div>
+
+                <div class="cv-item">
+                    <h4>Database & Information Management</h4>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Excel</span>
+                        <span class="skill-tag">Zotero</span>
+                        <span class="skill-tag">SQL</span>
+                        <span class="skill-tag">Data Analysis</span>
+                    </div>
+                </div>
+
+                <div class="cv-item">
+                    <h4>Accessibility</h4>
+                    <div class="skill-tags">
+                        <span class="skill-tag">WCAG Standards</span>
+                        <span class="skill-tag">Document Remediation</span>
+                        <span class="skill-tag">Assistive Technology</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cv-section">
+                <h3>Technical Knowledge & Standards</h3>
+                <div class="cv-item">
+                    <p><strong>Metadata Schemas:</strong> MARC, RDA, Dublin Core, LCSH, Getty Vocabularies, OAIS, PREMIS</p>
+                </div>
+                <div class="cv-item">
+                    <p><strong>Digital Asset Management:</strong> Omeka, ArchivesSpace, ResourceSpace, Browsertrix, Archive.org, DSpace</p>
+                </div>
+            </div>
+
+            <div class="cv-section">
+                <h3>Research Interests</h3>
+                <div class="cv-item">
+                    <div class="skill-tags">
+                        <span class="skill-tag">Digital Preservation</span>
+                        <span class="skill-tag">Web Archiving</span>
+                        <span class="skill-tag">Metadata Standards</span>
+                        <span class="skill-tag">Open Access</span>
+                        <span class="skill-tag">Knowledge Equity</span>
+                        <span class="skill-tag">Accessibility</span>
+                        <span class="skill-tag">Library Data Analysis</span>
+                        <span class="skill-tag">Cybersecurity</span>
+                        <span class="skill-tag">Digital Humanities</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Projects Section -->
+        <div id="projects" class="content-section">
+            <div class="cv-section">
+                <h3>Academic Projects & Research</h3>
+                
+                <div class="project-cards-grid">
+                    <div class="project-card-simple">
+                        <h4>HathiTrust Research Center Practicum</h4>
+                        <div class="cv-meta">Fall 2025 - Present</div>
+                        <ul>
+                            <li>Generating research dataset of public library developments by extracting data from OCR'd library directories</li>
+                            <li>Applying computational text analysis to public domain texts</li>
+                        </ul>
+                    </div>
+
+                    <div class="project-card-simple">
+                        <h4>DSpace Digital Repository Configuration</h4>
+                        <div class="cv-meta">Fall 2025</div>
+                        <ul>
+                            <li>Installing, configuring, and demonstrating DSpace (MIT's open source digital repository)</li>
+                            <li>Learning OAIS compliance and PREMIS metadata schema</li>
+                        </ul>
+                    </div>
+
+                    <div class="project-card-simple">
+                        <h4>Web Comics Archive Project</h4>
+                        <div class="cv-meta">Spring 2025</div>
+                        <ul>
+                            <li>Created web archive of curated webcomics from 2000-2020 using Browsertrix</li>
+                            <li>Completed full archival workflow: scoping, crawling, QA testing, and exhibition</li>
+                            <li>Applied Dublin Core metadata standards</li>
+                        </ul>
+                    </div>
+
+                    <div class="project-card-simple">
+                        <h4>IMLS Public Library Survey Data Analysis</h4>
+                        <div class="cv-meta">2024</div>
+                        <ul>
+                            <li>Analyzed and visualized IMLS Public Library Survey data</li>
+                            <li>Compared public data sources with national library survey data to assess community service</li>
+                        </ul>
+                    </div>
+
+                    <div class="project-card-simple">
+                        <h4>Ransomware Attacks in Libraries Research</h4>
+                        <div class="cv-meta">Fall 2024</div>
+                        <ul>
+                            <li>Researched cybersecurity threats to library systems</li>
+                            <li>Created toolkit with prevention strategies and best practices</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cv-section">
+                <h3>Volunteer Experience</h3>
+                
+                <div class="cv-item">
+                    <h4>Reference Librarian</h4>
+                    <div class="cv-meta">Prison Library Support Network</div>
+                    <ul>
+                        <li>Providing reference services to incarcerated individuals</li>
+                    </ul>
+                </div>
+
+                <div class="cv-item">
+                    <h4>Volunteer Transcriber/Tagger</h4>
+                    <div class="cv-meta">National Archives Citizen Archivist Program</div>
+                    <ul>
+                        <li>Applied controlled vocabulary to Revolutionary War pension plans written in cursive</li>
+                        <li>Tagged Civil War pension records with metadata schema</li>
+                        <li>Enhanced discoverability of historical documents through systematic metadata application</li>
+                    </ul>
+                </div>
+
+                <div class="cv-item">
+                    <h4>Metadata Quality Volunteer</h4>
+                    <div class="cv-meta">Open Library</div>
+                    <ul>
+                        <li>Identified and merged duplicate work records</li>
+                        <li>Fixed ISBN errors in OCLC's WorldCat</li>
+                        <li>Improved searchability and data quality across bibliographic records</li>
+                    </ul>
+                </div>
+
+                <div class="cv-item">
+                    <h4>Technical and Operations Volunteer</h4>
+                    <div class="cv-meta">NoHo Friends of the Library (Los Angeles Public Library)</div>
+                    <ul>
+                        <li>Processed, priced, and curated book donations for sale</li>
+                        <li>Configured and manage Square cash register system for book sales</li>
+                        <li>Technical assistant for Adult Literacy Class (Zoom meeting administration)</li>
+                        <li>Supported library events and programming</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Skills Section -->
+
+    </div>
+
+    <script>
+        function showSection(sectionName) {
+            // Hide all sections
+            const sections = document.querySelectorAll('.content-section');
+            sections.forEach(section => section.classList.remove('active'));
+            
+            // Show selected section
+            document.getElementById(sectionName).classList.add('active');
+            
+            // Update active tab
+            const tabs = document.querySelectorAll('.nav-tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+
+        // Add smooth scrolling and animations
+        document.addEventListener('DOMContentLoaded', function() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            const cards = document.querySelectorAll('.cv-section, .project-card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'all 0.5s ease';
+                observer.observe(card);
+            });
+        });
+    </script>
+</body>
+</html>
