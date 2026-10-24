@@ -1,0 +1,92 @@
+/* DOS: blue screen, white text, yellow headings, box-drawing borders */
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
+:root {
+    --bg: #0000aa;
+    --text: #ffffff;
+    --muted: #aaaaaa;
+    --line: #ffffff;
+    --yellow: #ffff55;
+}
+
+html { font-size: calc(19px * var(--text-scale, 1)); }
+
+body {
+    font-family: 'VT323', 'IBM Plex Mono', monospace;
+    line-height: 1.35;
+}
+
+h1 {
+    color: var(--yellow);
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+}
+
+.main-card {
+    border: 3px double var(--line);
+    padding: 1rem 1.25rem;
+    margin-bottom: 1.5rem;
+}
+
+.cv-section {
+    border: 2px solid var(--line);
+    padding: 1.25rem;
+    margin-bottom: 1.5rem;
+}
+
+.cv-section h2 {
+    color: var(--yellow);
+    letter-spacing: 3px;
+}
+
+.cv-item ul,
+.project-card-simple ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.cv-item li,
+.project-card-simple li {
+    position: relative;
+    padding-left: 1.4rem;
+}
+
+.cv-item li::before,
+.project-card-simple li::before {
+    content: "►";
+    position: absolute;
+    left: 0;
+    color: var(--yellow);
+}
+
+a:hover {
+    background: #ffffff;
+    color: #000000;
+}
+
+.skill-tag {
+    border: 1px solid var(--line);
+}
+
+.project-card-simple {
+    border: 1px solid #aaaaaa;
+}
+
+.btn { font-family: inherit; }
+
+.theme-switcher select {
+    font-family: inherit;
+    font-size: 1rem;
+}
+
+.theme-switcher select:hover {
+    background: #ffffff;
+    color: #0000aa;
+}
+
+.theme-switcher select:focus {
+    outline: 2px solid var(--yellow);
+    outline-offset: 2px;
+}
+
+.a11y-label { color: var(--yellow); }

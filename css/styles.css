@@ -5,6 +5,11 @@
     --line: #000000;
 }
 
+/* --text-scale is set by js/accessibility.js (1 = browser default). It scales every rem on the page. */
+html {
+    font-size: calc(100% * var(--text-scale, 1));
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -32,6 +37,7 @@ a {
 
 /* Header */
 .main-card {
+    text-align: center;
     padding: 1rem 0 1.5rem 0;
     margin-bottom: 2rem;
     border-bottom: 2px solid var(--line);
@@ -53,27 +59,309 @@ h1 {
     font-size: 0.95rem;
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
     gap: 1.5rem;
 }
 
 .nav-tabs {
     margin-top: 1.25rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem 1.5rem;
 }
 
-.pdf-btn {
+/* Controls: Download PDF | Choose OS | Accessibility */
+.btn,
+.theme-switcher select {
+    min-height: 2.75rem;
     padding: 0.6rem 1.25rem;
-    background: var(--text);
     border: 2px solid var(--text);
     border-radius: 0;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 0.95rem;
-    color: var(--bg);
+    line-height: 1.2;
     cursor: pointer;
 }
 
-.pdf-btn:hover {
+.btn {
+    background: var(--text);
+    color: var(--bg);
+}
+
+.btn:hover {
     background: var(--bg);
     color: var(--text);
+}
+
+.btn[aria-disabled="true"] {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Theme switcher (themes live in css/themes/, loaded by js/theme.js) */
+.theme-switcher select {
+    text-align: center;
+    text-align-last: center;
+    width: 100%;
+    max-width: 100%;
+    background: var(--bg);
+    color: var(--text);
+}
+
+/* Keep everything inside the viewport on narrow screens, even at 200% text size */
+body {
+    overflow-wrap: anywhere;
+}
+
+.nav-tabs > * {
+    min-width: 0;
+    max-width: 100%;
+}
+
+.btn {
+    white-space: normal;
+}
+
+/* Accessibility panel (behaviour lives in js/accessibility.js).
+   Compact settings list: label on the left, control on the right, one row per setting.
+   Controls use currentColor so every theme's panel colours carry through. */
+.a11y-panel {
+    --a11y-bg: var(--bg);
+    flex: 0 1 100%;
+    width: 100%;
+    max-width: min(26rem, 100%);
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    padding: 0.25rem clamp(0.6rem, 4vw, 1.25rem);
+    background: var(--a11y-bg);
+    color: var(--text);
+    border: 2px solid var(--text);
+}
+
+.a11y-panel[hidden] {
+    display: none;
+}
+
+.a11y-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem 1rem;
+    padding: 0.7rem 0;
+}
+
+.a11y-row + .a11y-row {
+    border-top: 1px solid color-mix(in srgb, currentColor 30%, transparent);
+}
+
+.a11y-footer {
+    justify-content: flex-end;
+    padding: 0.4rem 0;
+}
+
+.a11y-label {
+    font-weight: bold;
+}
+
+/* Text size: one joined  [ - | 100% | + ]  control */
+.a11y-stepper {
+    display: inline-flex;
+    align-items: stretch;
+    max-width: 100%;
+    border: 2px solid currentColor;
+}
+
+.a11y-step {
+    flex: none;
+    min-width: 2.25rem;
+    min-height: 2.5rem;
+    padding: 0 0.4rem;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    font-size: 1.25rem;
+    font-weight: bold;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.a11y-step:hover {
+    background: color-mix(in srgb, currentColor 18%, transparent);
+}
+
+.a11y-step[aria-disabled="true"] {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.a11y-value {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1 1 auto;
+    min-width: 0;
+    padding: 0 clamp(0.25rem, 2vw, 0.75rem);
+    border-left: 2px solid currentColor;
+    border-right: 2px solid currentColor;
+    font-weight: bold;
+}
+
+/* On / off switch */
+.a11y-switch {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    min-height: 2.5rem;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+}
+
+.a11y-switch[aria-disabled="true"] {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.a11y-track {
+    position: relative;
+    flex: none;
+    width: 3rem;
+    height: 1.6rem;
+    border: 2px solid currentColor;
+    border-radius: 999px;
+    background: transparent;
+    transition: background 0.15s;
+}
+
+.a11y-knob {
+    position: absolute;
+    top: 50%;
+    left: 0.2rem;
+    width: 0.9rem;
+    height: 0.9rem;
+    margin-top: -0.45rem;
+    border-radius: 50%;
+    background: currentColor;
+    transition: left 0.15s, background 0.15s;
+}
+
+.a11y-switch[aria-checked="true"] .a11y-track {
+    background: currentColor;
+}
+
+.a11y-switch[aria-checked="true"] .a11y-knob {
+    left: calc(100% - 0.9rem - 0.2rem);
+    background: var(--a11y-bg);
+}
+
+.a11y-state {
+    min-width: 0;
+    text-align: left;
+    font-size: 0.9rem;
+}
+
+/* Reset: quiet text button */
+.a11y-reset {
+    padding: 0.5rem 0.25rem;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    font-size: 0.95rem;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.a11y-reset:hover {
+    text-decoration-thickness: 3px;
+}
+
+/* Visible keyboard focus for every theme */
+:focus-visible {
+    outline: 3px solid var(--text);
+    outline-offset: 3px;
+}
+
+main:focus {
+    outline: none;
+}
+
+.visually-hidden {
+    position: absolute !important;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+.skip-link {
+    position: absolute;
+    top: -4rem;
+    left: 1rem;
+    z-index: 2000;
+    padding: 0.75rem 1rem;
+    background: #000000;
+    color: #ffffff !important;
+    border: 2px solid #ffffff;
+}
+
+.skip-link:focus {
+    top: 1rem;
+}
+
+/* Dyslexia-friendly mode: OpenDyslexic (self-hosted, SIL OFL) plus looser spacing.
+   Screen only, so printing and the PDF export never change. */
+@font-face {
+    font-family: 'OpenDyslexic';
+    src: url('../fonts/OpenDyslexic-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'OpenDyslexic';
+    src: url('../fonts/OpenDyslexic-Bold.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+@media screen {
+    html[data-dyslexia="on"] body,
+    html[data-dyslexia="on"] body * {
+        font-family: 'OpenDyslexic', 'Comic Sans MS', 'Trebuchet MS', sans-serif !important;
+        letter-spacing: 0.04em !important;
+        word-spacing: 0.12em !important;
+        font-style: normal !important;
+        text-transform: none !important;
+    }
+
+    html[data-dyslexia="on"] body {
+        line-height: 1.8;
+    }
+}
+
+/* "Reduce motion" switch in the Accessibility panel */
+html[data-motion="reduced"] *,
+html[data-motion="reduced"] *::before,
+html[data-motion="reduced"] *::after {
+    animation: none !important;
+    transition: none !important;
 }
 
 /* Content Sections */
@@ -90,7 +378,7 @@ h1 {
     border-bottom: 1px solid var(--line);
 }
 
-.cv-section h3 {
+.cv-section h2 {
     font-size: 1.1rem;
     text-transform: uppercase;
     letter-spacing: 0.5px;
@@ -101,7 +389,7 @@ h1 {
     margin-bottom: 1.5rem;
 }
 
-.cv-item h4 {
+.cv-item h3 {
     font-size: 1rem;
     font-weight: bold;
     margin-bottom: 0.15rem;
@@ -157,7 +445,7 @@ h1 {
     padding: 1.25rem;
 }
 
-.project-card-simple h4 {
+.project-card-simple h3 {
     font-size: 1.05rem;
     margin-bottom: 0.25rem;
     line-height: 1.3;
@@ -191,12 +479,21 @@ h1 {
 
     .contact-info {
         flex-direction: column;
+        align-items: center;
         gap: 0.5rem;
         font-size: 0.9rem;
     }
 
     .project-cards-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+/* Respect "reduce motion" for every theme animation */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation: none !important;
+        transition: none !important;
     }
 }
 
@@ -212,6 +509,38 @@ h1 {
         box-shadow: none !important;
         text-shadow: none !important;
         border-color: #000 !important;
+        animation: none !important;
+        transform: none !important;
+    }
+
+    /* Whatever theme is active, printing stays plain black on white */
+    body::before,
+    body::after,
+    .skip-link,
+    .theme-switcher {
+        display: none !important;
+    }
+
+    h1, h2, h3 {
+        letter-spacing: normal !important;
+    }
+
+    .cv-item ul,
+    .project-card-simple ul {
+        list-style: disc outside !important;
+        padding-left: 1.25rem !important;
+    }
+
+    .cv-item li,
+    .project-card-simple li {
+        padding-left: 0 !important;
+    }
+
+    .cv-item li::before,
+    .project-card-simple li::before,
+    .cv-section h2::before {
+        content: none !important;
+        display: none !important;
     }
 
     html, body {
@@ -232,6 +561,7 @@ h1 {
     }
 
     .main-card {
+        text-align: left !important;
         border: none !important;
         padding: 0 0 0.5rem 0 !important;
         margin-bottom: 0 !important;
@@ -252,6 +582,7 @@ h1 {
         font-family: inherit !important;
         font-size: 11pt !important;
         gap: 1.5rem !important;
+        justify-content: flex-start !important;
     }
 
     .contact-info a {
@@ -274,7 +605,7 @@ h1 {
         border-top: none !important;
     }
 
-    .cv-section h3 {
+    .cv-section h2 {
         font-size: 13pt !important;
         font-weight: bold !important;
         border-bottom: 1pt solid #000 !important;
@@ -287,7 +618,7 @@ h1 {
         page-break-inside: avoid;
     }
 
-    .cv-item h4 {
+    .cv-item h3 {
         font-size: 12pt !important;
         font-weight: bold !important;
     }
@@ -336,7 +667,7 @@ h1 {
         page-break-inside: avoid;
     }
 
-    .project-card-simple h4 {
+    .project-card-simple h3 {
         font-size: 12pt !important;
         font-weight: bold !important;
     }

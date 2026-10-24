@@ -1,0 +1,77 @@
+/* TERMINAL: white phosphor CRT with scanlines */
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&display=swap');
+
+:root {
+    --bg: #000000;
+    --text: #ffffff;
+    --muted: #bdbdbd;
+    --line: #ffffff;
+}
+
+html { font-size: calc(15px * var(--text-scale, 1)); }
+
+body {
+    font-family: 'IBM Plex Mono', 'Courier New', monospace;
+    line-height: 1.5;
+}
+
+/* Scanlines */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 0.15),
+        rgba(0, 0, 0, 0.15) 1px,
+        transparent 1px,
+        transparent 2px
+    );
+    pointer-events: none;
+    z-index: 1000;
+}
+
+/* Vignette + phosphor flicker */
+body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background:
+        radial-gradient(ellipse at center, transparent 0%, rgba(0, 0, 0, 0.3) 100%),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 0%, transparent 50%, rgba(255, 255, 255, 0.03) 100%);
+    pointer-events: none;
+    z-index: 999;
+    animation: crt-phosphor 0.2s infinite;
+}
+
+@keyframes crt-phosphor {
+    0%, 100% { opacity: 0.9; }
+    50% { opacity: 1; }
+}
+
+@keyframes crt-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.9; }
+}
+
+h1 { animation: crt-pulse 3s ease-in-out infinite; }
+
+.main-card {
+    border-top: 2px solid var(--line);
+    padding-top: 1.5rem;
+}
+
+.cv-section h2::before { content: "> "; }
+
+a:hover {
+    background: #ffffff;
+    color: #000000;
+}
+
+.project-card-simple { border-width: 2px; }
+
+.theme-switcher select {
+    background: #000000;
+    color: #ffffff;
+    border: 1px solid #ffffff;
+}

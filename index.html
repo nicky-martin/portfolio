@@ -1,18 +1,23 @@
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="en-US">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nicky Martin - Digital Preservation & Information Systems</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💾</text></svg>">
     <link rel="stylesheet" href="css/styles.css">
+    <!-- Not deferred on purpose: these apply the saved theme and accessibility settings before first paint so there's no flash -->
+    <script src="js/theme.js"></script>
+    <script src="js/accessibility.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
+    <script src="js/pdfua.js" defer></script>
     <script src="js/pdf.js" defer></script>
 </head>
 <body>
+    <a class="skip-link" href="#cv">Skip to main content</a>
     <div class="container">
-        <div class="main-card">
+        <header class="main-card">
             <h1>Nicky Martin</h1>
             <p class="subtitle">Digital Preservation & Information Systems</p>
 
@@ -22,24 +27,60 @@
         </div>
 
         <div class="nav-tabs">
-            <button class="pdf-btn" id="pdf-download-btn" onclick="downloadAsPDF()">⬇ Download PDF</button>
+            <button type="button" class="btn" id="pdf-download-btn" onclick="downloadAsPDF()">Download PDF</button>
+
+            <div class="theme-switcher">
+                <select id="theme-select" aria-label="Choose OS theme">
+                    <option value="">CHOOSE OS</option>
+                    <option value="crt">TERMINAL</option>
+                    <option value="xbox">XBOX</option>
+                    <option value="win95">WINDOWS 95</option>
+                    <option value="dos">DOS</option>
+                </select>
+            </div>
+
+            <button type="button" class="btn a11y-toggle" id="a11y-toggle" aria-expanded="false" aria-controls="a11y-panel">Accessibility</button>
+
+            <div class="a11y-panel" id="a11y-panel" role="group" aria-label="Accessibility settings" hidden>
+                <div class="a11y-row">
+                    <span class="a11y-label" id="a11y-size-label">Text size</span>
+                    <div class="a11y-stepper" role="group" aria-labelledby="a11y-size-label">
+                        <button type="button" class="a11y-step" id="a11y-smaller"><span aria-hidden="true">&minus;</span><span class="visually-hidden">Smaller text</span></button>
+                        <span class="a11y-value" id="a11y-size-value" aria-hidden="true">100%</span>
+                        <button type="button" class="a11y-step" id="a11y-larger"><span aria-hidden="true">+</span><span class="visually-hidden">Larger text</span></button>
+                    </div>
+                </div>
+                <div class="a11y-row">
+                    <span class="a11y-label" id="a11y-dyslexia-label">Dyslexia font</span>
+                    <button type="button" class="a11y-switch" id="a11y-dyslexia" role="switch" aria-checked="false" aria-labelledby="a11y-dyslexia-label"><span class="a11y-track" aria-hidden="true"><span class="a11y-knob"></span></span><span class="a11y-state" aria-hidden="true">Off</span></button>
+                </div>
+                <div class="a11y-row">
+                    <span class="a11y-label" id="a11y-motion-label">Reduce motion</span>
+                    <button type="button" class="a11y-switch" id="a11y-motion" role="switch" aria-checked="false" aria-labelledby="a11y-motion-label"><span class="a11y-track" aria-hidden="true"><span class="a11y-knob"></span></span><span class="a11y-state" aria-hidden="true">Off</span></button>
+                </div>
+                <div class="a11y-row a11y-footer">
+                    <button type="button" class="a11y-reset" id="a11y-reset">Reset to defaults</button>
+                </div>
+            </div>
+
+            <p class="visually-hidden" id="a11y-status" role="status"></p>
         </div>
-    </div>
+    </header>
 
     <!-- Single-page CV -->
-    <div id="cv" class="content-section active">
+    <main id="cv" class="content-section active" tabindex="-1">
         <div class="cv-section">
-            <h3>Statement of Purpose</h3>
+            <h2>Statement of Purpose</h2>
             <div class="cv-item-paragraph">
                 <p>Librarian focused on digital preservation, web archiving, metadata standards, data stewardship and universal access to knowledge. Experienced in digital asset management, automating processing workflows and accessibility compliance. Committed to stewarding humanity's knowledge for present and future generations through open access.</p>
             </div>
         </div>
 
         <div class="cv-section">
-            <h3>Professional Experience</h3>
+            <h2>Professional Experience</h2>
 
             <div class="cv-item">
-                <h4>Open Publishing Applications Specialist</h4>
+                <h3>Open Publishing Applications Specialist</h3>
                 <div class="cv-meta">The Claremont Colleges Library • August 2026 - Present • Claremont, CA</div>
                 <ul>
                     <li>Steward the Claremont Colleges Digital Library (CCDL)</li>
@@ -50,7 +91,7 @@
             </div>
 
             <div class="cv-item">
-                <h4>Junior Fellow, Web Archiving</h4>
+                <h3>Junior Fellow, Web Archiving</h3>
                 <div class="cv-meta">Library of Congress • May 2026 - July 2026 • Remote</div>
                 <ul>
                     <li>Manually QA'd web captures related to the 2026 Federal Elections and Library and Information Science websites</li>
@@ -60,7 +101,7 @@
             </div>
 
             <div class="cv-item">
-                <h4>Digital Stewardship Intern</h4>
+                <h3>Digital Stewardship Intern</h3>
                 <div class="cv-meta">ITHAKA, JSTOR Digital Stewardship • February 2026 - May 2026 • Remote</div>
                 <ul>
                     <li>Curated digital collections with objects from across JSTOR, ArtStor and JSTOR community collections for instruction and demonstration</li>
@@ -70,7 +111,7 @@
             </div>
             
             <div class="cv-item">
-                <h4>Student Affairs Graduate Assistant</h4>
+                <h3>Student Affairs Graduate Assistant</h3>
                 <div class="cv-meta">University of Illinois iSchool • August 2025 - May 2026 • Champaign, IL</div>
                 <ul>
                     <li>Coordinated programs and events to connect MSLIS students with LIS professionals</li>
@@ -82,7 +123,7 @@
             </div>
 
             <div class="cv-item">
-                <h4>Web Developer</h4>
+                <h3>Web Developer</h3>
                 <div class="cv-meta">Data Storytelling Toolkit for Libraries (DSTL) • December 2025 - May 2026</div>
                 <ul>
                     <li>DSTL is a collaboration between the University of Illinois and the Public Library Association</li>
@@ -93,7 +134,7 @@
             </div>
 
             <div class="cv-item">
-                <h4>Accessibility Consultant</h4>
+                <h3>Accessibility Consultant</h3>
                 <div class="cv-meta">University of Illinois, Disability Access Providers • August 2025 - December 2025 • Urbana, IL</div>
                 <ul>
                     <li>Remediated documents for accessibility compliance using assistive technology tools</li>
@@ -103,7 +144,7 @@
             </div>
 
             <div class="cv-item">
-                <h4>Digital Collections Intern</h4>
+                <h3>Digital Collections Intern</h3>
                 <div class="cv-meta">Pacific Atrocities Education • May 2025 - August 2025 • Remote</div>
                 <ul>
                     <li>Accessioned 500 pages of declassified NARA documents and created 45 records</li>
@@ -115,7 +156,7 @@
             </div>
 
             <div class="cv-item">
-                <h4>E-Commerce Collection Manager</h4>
+                <h3>E-Commerce Collection Manager</h3>
                 <div class="cv-meta">The Last Bookstore • January 2024 - August 2025 • Los Angeles, CA</div>
                 <ul>
                     <li>Managed high-turnover collection of 8,000+ items across Amazon and eBay platforms</li>
@@ -130,7 +171,7 @@
             </div>
 
             <div class="cv-item">
-                <h4>Account Executive / Solutions Engineer</h4>
+                <h3>Account Executive / Solutions Engineer</h3>
                 <div class="cv-meta">Inktavo • January 2017 - September 2023 • Remote</div>
                 <ul>
                     <li>Sold project management and database software to 600+ screen printing businesses</li>
@@ -145,10 +186,10 @@
         </div>
 
         <div class="cv-section">
-            <h3>Education</h3>
+            <h2>Education</h2>
             
             <div class="cv-item">
-                <h4>Master of Science in Library and Information Science</h4>
+                <h3>Master of Science in Library and Information Science</h3>
                 <div class="cv-meta">University of Illinois, Urbana-Champaign iSchool • Aug 2024 - Apr 2026 • GPA 4.0</div>
                 <p><strong>Coursework:</strong></p>
                 <ul>
@@ -167,17 +208,17 @@
             </div>
 
             <div class="cv-item">
-                <h4>Bachelor of Liberal Arts and Science, English Literature</h4>
+                <h3>Bachelor of Liberal Arts and Science, English Literature</h3>
                 <div class="cv-meta">University of Illinois, Urbana-Champaign • Sep 2009 - Apr 2013 • GPA 3.49</div>
             </div>
         </div>
 
         <div class="cv-section">
-            <h3>Academic Projects & Research</h3>
+            <h2>Academic Projects & Research</h2>
             
             <div class="project-cards-grid">
                 <div class="project-card-simple">
-                    <h4>EPUB Research</h4>
+                    <h3>EPUB Research</h3>
                     <div class="cv-meta">Spring 2026 • <a href="https://nucky.neocities.org/shrines/epub/" target="_blank">View Project →</a></div>
                     <ul>
                         <li>Webpage for EPUB reference for Ashley Blewer's A/V Preservation course</li>
@@ -187,7 +228,7 @@
                 </div>
 
                 <div class="project-card-simple">
-                    <h4>Historic Library Data</h4>
+                    <h3>Historic Library Data</h3>
                     <div class="cv-meta">Fall 2025 - Spring 2026 • <a href="https://nicky-martin.github.io/1876-libraries/" target="_blank">View Project →</a></div>
                     <ul>
                         <li>A practicum project with HathiTrust Research Center</li> 
@@ -198,7 +239,7 @@
                 </div>
 
                 <div class="project-card-simple">
-                    <h4>PICO-8 Cartridge Decompilation</h4>
+                    <h3>PICO-8 Cartridge Decompilation</h3>
                     <div class="cv-meta">Fall 2025 • <a href="https://nicky-martin.github.io/celestep8-decompiled/" target="_blank">View Essay →</a></div>
                     <ul>
                         <li>Created a preservation strategy for virtual game console, PICO-8</li>
@@ -208,7 +249,7 @@
                 </div>
 
                 <div class="project-card-simple">
-                    <h4>Corporate Collaboration with Bioweapons</h4>
+                    <h3>Corporate Collaboration with Bioweapons</h3>
                     <div class="cv-meta">Summer 2025 • <a href="https://pacificatrocitiesedu.reclaim.hosting/exhibits/show/fort-detrick-corporations/introduction" target="_blank">View Exhibit →</a></div>
                     <ul>
                         <li>Created digital exhibit on Omeka using declassified primary sources</li>
@@ -218,7 +259,7 @@
                 </div>
 
                 <div class="project-card-simple">
-                    <h4>DSpace Digital Repository Configuration</h4>
+                    <h3>DSpace Digital Repository Configuration</h3>
                     <div class="cv-meta">Fall 2025</div>
                     <ul>
                         <li>Installing, configuring, and demonstrating DSpace (MIT's open source digital repository)</li>
@@ -228,7 +269,7 @@
                 </div>
 
                 <div class="project-card-simple">
-                    <h4>Web Comics Archive Project</h4>
+                    <h3>Web Comics Archive Project</h3>
                     <div class="cv-meta">Spring 2025 • <a href="https://funday.neocities.org/" target="_blank">View Discovery Tool →</a></div>
                     <ul>
                         <li>Created web archive of curated webcomics from 2000-2020 using Browsertrix</li>
@@ -238,7 +279,7 @@
                 </div>
 
                 <div class="project-card-simple">
-                    <h4>IMLS Public Library Survey Data Analysis</h4>
+                    <h3>IMLS Public Library Survey Data Analysis</h3>
                     <div class="cv-meta">2024</div>
                     <ul>
                         <li>Analyzed and visualized the IMLS Public Library Survey data model</li>
@@ -248,7 +289,7 @@
                 </div>
 
                 <div class="project-card-simple">
-                    <h4>Ransomware Attacks in Libraries Research</h4>
+                    <h3>Ransomware Attacks in Libraries Research</h3>
                     <div class="cv-meta">Fall 2024</div>
                     <ul>
                         <li>Researched cybersecurity threats to library systems</li>
@@ -259,10 +300,10 @@
         </div>
 
         <div class="cv-section">
-            <h3>Technical Skills</h3>
+            <h2>Technical Skills</h2>
             
             <div class="cv-item">
-                <h4>Digital Preservation</h4>
+                <h3>Digital Preservation</h3>
                 <div class="skill-tags">
                     <span class="skill-tag">DSpace</span>
                     <span class="skill-tag">Omeka</span>
@@ -273,7 +314,7 @@
             </div>
 
             <div class="cv-item">
-                <h4>Web Archiving</h4>
+                <h3>Web Archiving</h3>
                 <div class="skill-tags">
                     <span class="skill-tag">Archive-It</span>
                     <span class="skill-tag">WebRecorder</span>
@@ -284,7 +325,7 @@
             </div>
 
             <div class="cv-item">
-                <h4>Metadata Schemas</h4>
+                <h3>Metadata Schemas</h3>
                 <div class="skill-tags">
                     <span class="skill-tag">Dublin Core</span>
                     <span class="skill-tag">MARC</span>
@@ -297,7 +338,7 @@
             </div>
 
             <div class="cv-item">
-                <h4>Programming & Development</h4>
+                <h3>Programming & Development</h3>
                 <div class="skill-tags">
                     <span class="skill-tag">HTML/CSS</span>
                     <span class="skill-tag">JavaScript</span>
@@ -310,7 +351,7 @@
             </div>
 
             <div class="cv-item">
-                <h4>Database & Information Management</h4>
+                <h3>Database & Information Management</h3>
                 <div class="skill-tags">
                     <span class="skill-tag">Excel</span>
                     <span class="skill-tag">Zotero</span>
@@ -320,7 +361,7 @@
             </div>
 
             <div class="cv-item">
-                <h4>Accessibility</h4>
+                <h3>Accessibility</h3>
                 <div class="skill-tags">
                     <span class="skill-tag">WCAG Standards</span>
                     <span class="skill-tag">Document Remediation</span>
@@ -330,7 +371,7 @@
         </div>
 
         <div class="cv-section">
-            <h3>Research Interests</h3>
+            <h2>Research Interests</h2>
             <div class="cv-item">
                 <div class="skill-tags">
                     <span class="skill-tag">Digital Preservation</span>
@@ -347,7 +388,7 @@
         </div>
 
         <div class="cv-section">
-            <h3>Professional Organizations</h3>
+            <h2>Professional Organizations</h2>
             <div class="cv-item">
                 <ul>
                     <li>American Library Association</li>
@@ -358,10 +399,10 @@
         </div>
 
         <div class="cv-section">
-            <h3>Volunteer Experience</h3>
+            <h2>Volunteer Experience</h2>
 
             <div class="cv-item">
-                <h4>iSchool Liaison</h4>
+                <h3>iSchool Liaison</h3>
                 <div class="cv-meta">Society of American Archivists, UIUC Chapter</div>
                 <ul>
                     <li>Created posters and circulated events throughout university comms channels</li>
@@ -370,7 +411,7 @@
             </div>
 
             <div class="cv-item">
-                <h4>Jail Librarian</h4>
+                <h3>Jail Librarian</h3>
                 <div class="cv-meta">Urbana Books to Prisoners</div>
                 <ul>
                     <li>Providing institutional library services to incarcerated individuals</li>
@@ -380,7 +421,7 @@
             </div>
 
             <div class="cv-item">
-                <h4>Metadata Quality Volunteer</h4>
+                <h3>Metadata Quality Volunteer</h3>
                 <div class="cv-meta">Open Library</div>
                 <ul>
                     <li>Identified duplicate work records while listing books online</li>
@@ -389,7 +430,7 @@
             </div>
 
             <div class="cv-item">
-                <h4>Reference Librarian</h4>
+                <h3>Reference Librarian</h3>
                 <div class="cv-meta">Prison Library Support Network</div>
                 <ul>
                     <li>Providing reference services to incarcerated individuals</li>
@@ -399,7 +440,7 @@
             </div>
 
             <div class="cv-item">
-                <h4>Technical and Operations Volunteer</h4>
+                <h3>Technical and Operations Volunteer</h3>
                 <div class="cv-meta">NoHo Friends of the Library (Los Angeles Public Library)</div>
                 <ul>
                     <li>Processed, priced, and curated book donations for sale</li>
@@ -409,7 +450,7 @@
             </div>
 
             <div class="cv-item">
-                <h4>Transcribed Records Tagger</h4>
+                <h3>Transcribed Records Tagger</h3>
                 <div class="cv-meta">National Archives Citizen Archivist Program</div>
                 <ul>
                     <li>Applied controlled vocabulary to Revolutionary War pension plans written in cursive</li>
@@ -417,7 +458,7 @@
                 </ul>
             </div>
         </div>
-    </div>
+    </main>
 </div>
 
 </body>

@@ -1,0 +1,152 @@
+/* WINDOWS 95: teal desktop, grey bevelled panels, navy title bar */
+
+:root {
+    --bg: #c0c0c0;
+    --text: #000000;
+    --muted: #404040;
+    --line: #808080;
+    --navy: #000080;
+    --raised:
+        inset -1px -1px 0 #000000,
+        inset 1px 1px 0 #ffffff,
+        inset -2px -2px 0 #808080,
+        inset 2px 2px 0 #dfdfdf;
+    --sunken:
+        inset -1px -1px 0 #ffffff,
+        inset 1px 1px 0 #808080,
+        inset -2px -2px 0 #dfdfdf,
+        inset 2px 2px 0 #000000;
+}
+
+body {
+    font-family: 'MS Sans Serif', 'Microsoft Sans Serif', Tahoma, 'Segoe UI', Arial, sans-serif;
+    background: #008080;
+    line-height: 1.55;
+}
+
+/* Title bar */
+.main-card {
+    background: linear-gradient(90deg, #000080 0%, #0a60b0 100%);
+    color: #ffffff;
+    border: none;
+    padding: 1rem 1.25rem 1.25rem;
+    margin-bottom: 1rem;
+    box-shadow: var(--raised);
+}
+
+.main-card h1,
+.main-card .subtitle,
+.main-card .contact-info,
+.main-card a {
+    color: #ffffff;
+}
+
+h1 { text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8); }
+
+/* Window panels */
+.cv-section {
+    background: #c0c0c0;
+    border: none;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1rem;
+    box-shadow: var(--raised);
+}
+
+.cv-section h2 {
+    color: var(--navy);
+    padding-bottom: 0.4rem;
+    border-bottom: 2px solid #808080;
+    text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.cv-item ul { list-style: none; padding-left: 0; }
+
+.cv-item li,
+.project-card-simple li {
+    position: relative;
+    padding-left: 1.1rem;
+}
+
+.cv-item li::before,
+.project-card-simple li::before {
+    content: "▪";
+    position: absolute;
+    left: 0;
+    color: var(--navy);
+    font-weight: bold;
+}
+
+.project-card-simple ul { list-style: none; padding-left: 0; }
+
+a { color: var(--navy); }
+
+a:hover {
+    background: var(--navy);
+    color: #ffffff;
+    text-decoration: none;
+}
+
+/* Links in the navy title bar invert the other way so the hover stays visible */
+.main-card a:hover {
+    background: #ffffff;
+    color: var(--navy);
+}
+
+a:active {
+    background: #000000;
+    color: #c0c0c0;
+}
+
+/* Sunken inset for the project cards, raised for tags and buttons */
+.project-card-simple {
+    border: none;
+    background: #dfdfdf;
+    box-shadow: var(--sunken);
+}
+
+.skill-tag {
+    border: none;
+    background: #c0c0c0;
+    box-shadow: inset -1px -1px 0 #404040, inset 1px 1px 0 #ffffff;
+}
+
+.btn {
+    font-family: inherit;
+    background: #c0c0c0;
+    border: none;
+    color: #000000;
+    box-shadow: var(--raised);
+}
+
+.btn:hover {
+    background: #c0c0c0;
+    color: #000000;
+}
+
+.btn:active { box-shadow: inset 1px 1px 0 #000000, inset 2px 2px 0 #808080; }
+
+.theme-switcher select {
+    font-family: inherit;
+    background: #ffffff;
+    color: #000000;
+    border: none;
+    padding: 0.4rem 0.6rem;
+    box-shadow: var(--sunken);
+}
+
+.a11y-panel {
+    --a11y-bg: #c0c0c0;
+    background: #c0c0c0;
+    color: #000000;
+    border: none;
+    box-shadow: var(--raised);
+}
+
+.a11y-label { color: var(--navy); }
+
+/* Focus rings: white on the navy title bar, black on the grey panel */
+.main-card a:focus-visible,
+.nav-tabs > .btn:focus-visible,
+.theme-switcher select:focus-visible { outline-color: #ffffff; }
+
+.a11y-panel :focus-visible { outline-color: #000000; }
