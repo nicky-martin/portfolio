@@ -1,0 +1,361 @@
+/*
+ * Macintosh: a 1-bit, early-Mac (System 1-6) look. Pure black and white, hard shadows,
+ * a dithered desktop, one striped title bar. Adapted from the standalone mac-os.css.
+ *
+ * Everything here is decoration on top of the existing page markup (no extra HTML):
+ * the title bar, close/zoom boxes, menu bar and screen corners are CSS pseudo-elements.
+ * Text inside them uses the "content: 'x' / ''" form, which tells screen readers to
+ * skip it; browsers that don't understand the "/ ''" fall back to the plain string.
+ *
+ * Fonts are self-hosted in fonts/mac/ (Pixelify Sans and Silkscreen, SIL OFL).
+ */
+@font-face {
+    font-family: 'Pixelify Sans';
+    src: url('../../fonts/mac/pixelify-sans-latin-400-normal.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Pixelify Sans';
+    src: url('../../fonts/mac/pixelify-sans-latin-600-normal.woff2') format('woff2');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Silkscreen';
+    src: url('../../fonts/mac/silkscreen-latin-400-normal.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Silkscreen';
+    src: url('../../fonts/mac/silkscreen-latin-700-normal.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+:root {
+    --bg: #ffffff;
+    --text: #000000;
+    --muted: #000000;
+    --line: #000000;
+
+    --mac-line: 3px;
+    --mac-shadow: 6px;
+    --mac-font: 'Pixelify Sans', 'Courier New', monospace;
+    --mac-display: 'Silkscreen', 'Pixelify Sans', monospace;
+    --mac-menubar: 1.7rem;
+    --mac-titlebar: 1.65rem;
+
+    /* 50% checkerboard, 4px cells: the desktop */
+    --mac-dither: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' shape-rendering='crispEdges'%3E%3Cpath d='M0 0h2v2H0zM2 2h2v2H2z'/%3E%3C/svg%3E");
+    /* 50% checkerboard, 2px cells: scrollbar track */
+    --mac-dither-fine: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='2' height='2' shape-rendering='crispEdges'%3E%3Cpath d='M0 0h1v1H0zM1 1h1v1H1z'/%3E%3C/svg%3E");
+}
+
+html {
+    font-size: calc(20px * var(--text-scale, 1));
+    background: #ffffff var(--mac-dither);
+}
+
+body {
+    min-height: 100vh;
+    padding: calc(var(--mac-menubar) + 28px) 28px 56px;
+    background: transparent;
+    font-family: var(--mac-font);
+    font-size: 1.1rem;
+    line-height: 1.35;
+    -webkit-font-smoothing: none;
+    font-smooth: never;
+    cursor: default;
+}
+
+::selection { background: #000000; color: #ffffff; }
+
+/* ---- Menu bar (decorative) ------------------------------------------------ */
+body::before {
+    content: "File     Edit     View     Special";
+    content: "File     Edit     View     Special" / "";
+    position: absolute;
+    z-index: 100;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: var(--mac-menubar);
+    padding: 0 1rem;
+    display: flex;
+    align-items: center;
+    background: #ffffff;
+    border-bottom: var(--mac-line) solid #000000;
+    font-size: 1rem;
+    white-space: pre;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+/* ---- Rounded black screen corners ----------------------------------------- */
+body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    pointer-events: none;
+    background:
+        radial-gradient(circle at 100% 100%, transparent 17px, #000000 18px) top left / 18px 18px no-repeat,
+        radial-gradient(circle at 0 100%, transparent 17px, #000000 18px) top right / 18px 18px no-repeat,
+        radial-gradient(circle at 100% 0, transparent 17px, #000000 18px) bottom left / 18px 18px no-repeat,
+        radial-gradient(circle at 0 0, transparent 17px, #000000 18px) bottom right / 18px 18px no-repeat;
+}
+
+/* ---- The window ------------------------------------------------------------ */
+.container {
+    position: relative;
+    max-width: 920px;
+    margin: 0 auto 2rem;
+    padding: 0;
+    background: #ffffff;
+    border: var(--mac-line) solid #000000;
+    box-shadow: var(--mac-shadow) var(--mac-shadow) 0 #000000;
+}
+
+/* striped title bar */
+.container::before {
+    content: "";
+    display: block;
+    height: var(--mac-titlebar);
+    background: repeating-linear-gradient(to bottom, #ffffff 0 3px, #000000 3px 5px);
+    border-bottom: var(--mac-line) solid #000000;
+}
+
+/* title plate in the middle of the bar */
+.container::after {
+    content: "R\00E9sum\00E9";
+    content: "R\00E9sum\00E9" / "";
+    position: absolute;
+    top: 3px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 0 0.7rem;
+    background: #ffffff;
+    font-size: 1.1rem;
+    line-height: calc(var(--mac-titlebar) - 6px);
+    white-space: nowrap;
+}
+
+/* close box (left) and zoom box (right) */
+.main-card::before,
+.main-card::after {
+    content: "";
+    position: absolute;
+    top: 0.3rem;
+    width: 1rem;
+    height: 1rem;
+    background: #ffffff;
+    border: var(--mac-line) solid #000000;
+}
+
+.main-card::before { left: 0.5rem; }
+
+.main-card::after {
+    right: 0.5rem;
+    box-shadow: inset 0 0 0 2px #ffffff, inset 0 0 0 4px #000000;
+}
+
+.main-card {
+    padding: 1.75rem 2.25rem;
+    margin: 0;
+    border-bottom: var(--mac-line) solid #000000;
+}
+
+#cv {
+    padding: 1.75rem 2.25rem 2rem;
+}
+
+/* ---- Text ------------------------------------------------------------------ */
+h1 {
+    font-family: var(--mac-display);
+    font-size: 2.2rem;
+    font-weight: 700;
+    line-height: 1.12;
+    margin-bottom: 0.5rem;
+}
+
+.subtitle {
+    color: #000000;
+    font-size: 1.15rem;
+}
+
+.contact-info { font-size: 1.05rem; }
+
+.cv-section {
+    border-bottom: var(--mac-line) solid #000000;
+    padding: 1.5rem 0;
+}
+
+.cv-section:last-child { border-bottom: 0; }
+
+.cv-section h2 {
+    font-family: var(--mac-display);
+    font-size: 1.4rem;
+    font-weight: 700;
+    letter-spacing: 0;
+    margin-bottom: 1rem;
+}
+
+.cv-item h3,
+.project-card-simple h3 {
+    font-family: var(--mac-font);
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.cv-meta {
+    font-style: normal;
+    font-size: 1.05rem;
+    color: #000000;
+}
+
+a {
+    color: #000000;
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 3px;
+}
+
+a:hover {
+    background: #000000;
+    color: #ffffff;
+    text-decoration: none;
+}
+
+/* square bullets */
+.cv-item ul,
+.project-card-simple ul {
+    list-style: none;
+    padding-left: 0;
+    display: grid;
+    gap: 0.4rem;
+}
+
+.cv-item li,
+.project-card-simple li {
+    position: relative;
+    padding-left: 1.6rem;
+    margin-bottom: 0;
+    font-size: 1.05rem;
+}
+
+.cv-item li::before,
+.project-card-simple li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.5em;
+    width: 0.7rem;
+    height: 0.7rem;
+    background: #000000;
+}
+
+.skill-tag {
+    border: 2px solid #000000;
+    padding: 0.1rem 0.65rem;
+    font-size: 1rem;
+}
+
+.project-card-simple {
+    border: var(--mac-line) solid #000000;
+    box-shadow: 4px 4px 0 #000000;
+    padding: 1.1rem 1.25rem;
+}
+
+/* ---- Buttons and the OS dropdown ------------------------------------------- */
+.btn,
+.theme-switcher select {
+    font-family: var(--mac-font);
+    font-size: 1.15rem;
+    color: #000000;
+    background: #ffffff;
+    border: var(--mac-line) solid #000000;
+}
+
+.btn {
+    border-radius: 14px;
+    padding: 0.4rem 1.6rem 0.3rem;
+}
+
+.btn:hover,
+.btn:active {
+    background: #000000;
+    color: #ffffff;
+}
+
+/* Download PDF gets the thick "default button" ring */
+#pdf-download-btn {
+    margin: 6px;
+    box-shadow: 0 0 0 3px #ffffff, 0 0 0 6px #000000;
+}
+
+.theme-switcher select {
+    border-radius: 0;
+}
+
+.theme-switcher select:hover {
+    background: #000000;
+    color: #ffffff;
+}
+
+.theme-switcher select option {
+    background: #ffffff;
+    color: #000000;
+}
+
+/* ---- Accessibility panel ----------------------------------------------------- */
+.a11y-panel {
+    --a11y-bg: #ffffff;
+    border: var(--mac-line) solid #000000;
+    box-shadow: 4px 4px 0 #000000;
+}
+
+.a11y-stepper,
+.a11y-value {
+    border-width: var(--mac-line);
+}
+
+.a11y-track,
+.a11y-knob {
+    transition: none;
+}
+
+/* ---- Classic scrollbars (Chrome, Safari, Edge) -------------------------------- */
+::-webkit-scrollbar { width: 22px; height: 22px; }
+::-webkit-scrollbar-track { background: #ffffff var(--mac-dither-fine); border-left: var(--mac-line) solid #000000; }
+::-webkit-scrollbar-thumb { background: #ffffff; border: var(--mac-line) solid #000000; }
+::-webkit-scrollbar-corner { background: #ffffff; border-left: var(--mac-line) solid #000000; border-top: var(--mac-line) solid #000000; }
+
+/* ---- Small screens ------------------------------------------------------------ */
+@media (max-width: 700px) {
+    body { padding: calc(var(--mac-menubar) + 16px) 12px 40px; }
+    .main-card,
+    #cv { padding-left: 1.1rem; padding-right: 1.1rem; }
+    h1 { font-size: 1.7rem; }
+    body::before { content: "File     Edit"; content: "File     Edit" / ""; }
+}
+
+/* ---- Printing: just the plain CV, none of the window chrome ------------------- */
+@media print {
+    html { background: #ffffff; }
+    body { padding: 0; }
+    .container { border: 0; box-shadow: none; margin: 0; }
+    .container::before,
+    .container::after,
+    .main-card::before,
+    .main-card::after { display: none !important; }
+    #cv { padding: 0; }
+}

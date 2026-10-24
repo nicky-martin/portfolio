@@ -8,6 +8,10 @@
 /* --text-scale is set by js/accessibility.js (1 = browser default). It scales every rem on the page. */
 html {
     font-size: calc(100% * var(--text-scale, 1));
+    /* Paint the page colour on <html> too, and stop the elastic "bounce" scroll past the
+       top/bottom, so no white shows beyond the edges of the page. Themes override the colour. */
+    background: var(--bg);
+    overscroll-behavior: none;
 }
 
 * {

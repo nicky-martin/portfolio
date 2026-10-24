@@ -18,6 +18,8 @@
         inset 2px 2px 0 #000000;
 }
 
+html { background: #008080; }
+
 body {
     font-family: 'MS Sans Serif', 'Microsoft Sans Serif', Tahoma, 'Segoe UI', Arial, sans-serif;
     background: #008080;

@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    var THEMES = ['crt', 'xbox', 'win95', 'dos'];
+    var THEMES = ['crt', 'xbox', 'win95', 'dos', 'mac'];
     var DEFAULT_THEME = 'clean';
     var STORAGE_KEY = 'cv-theme';
 
