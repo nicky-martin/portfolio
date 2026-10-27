@@ -6,9 +6,9 @@
 // Metric-compatible with Times, so the layout matches the old built-in Times output.
 // PDF/UA requires every font to be embedded; jsPDF's built-in Times is not.
 const PDF_FONTS = [
-    ['fonts/pdf/LiberationSerif-Regular.subset.ttf', 'normal'],
-    ['fonts/pdf/LiberationSerif-Bold.subset.ttf', 'bold'],
-    ['fonts/pdf/LiberationSerif-Italic.subset.ttf', 'italic']
+    ['fonts/LiberationSerif-Regular.subset.ttf', 'normal'],
+    ['fonts/LiberationSerif-Bold.subset.ttf', 'bold'],
+    ['fonts/LiberationSerif-Italic.subset.ttf', 'italic']
 ];
 const PDF_FONT_FAMILY = 'LiberationSerif';
 
